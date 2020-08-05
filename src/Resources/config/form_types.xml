@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="zentlix_page.page.create_form" class="Zentlix\PageBundle\UI\Http\Web\Form\Page\CreateForm">
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="translator"/>
+            <argument type="service" id="Zentlix\MainBundle\Domain\Site\Repository\SiteRepository"/>
+            <argument type="service" id="Zentlix\PageBundle\Domain\Page\Repository\PageRepository"/>
+            <argument type="string">%page_template%</argument>
+            <tag name="form.type"/>
+        </service>
+        <service id="zentlix_page.page.update_form" class="Zentlix\PageBundle\UI\Http\Web\Form\Page\UpdateForm">
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="translator"/>
+            <argument type="service" id="Zentlix\MainBundle\Domain\Site\Repository\SiteRepository"/>
+            <argument type="service" id="Zentlix\PageBundle\Domain\Page\Repository\PageRepository"/>
+            <argument type="string">%page_template%</argument>
+            <tag name="form.type"/>
+        </service>
+        <service id="zentlix_page.page.visual_edit_form" class="Zentlix\PageBundle\UI\Http\Web\Form\Page\VisualEditForm">
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="translator"/>
+            <argument type="service" id="Zentlix\MainBundle\Domain\Site\Repository\SiteRepository"/>
+            <argument type="string">%page_template%</argument>
+            <tag name="form.type"/>
+        </service>
+    </services>
+</container>

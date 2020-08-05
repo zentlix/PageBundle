@@ -1,0 +1,2 @@
+zentlix_page:
+  resource: '@PageBundle/Resources/config/routing.xml'

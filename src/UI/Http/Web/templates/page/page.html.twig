@@ -1,0 +1,7 @@
+{% extends  template ~ '/layouts/base.html.twig' %}
+{% block body %}
+    <div class="container">
+        <h2>{{ page.title }}</h2>
+        {{ pageContentWidget(page) }}
+    </div>
+{% endblock %}

@@ -1,0 +1,32 @@
+zentlix_page:
+  adm_panel_add:      "Сторінку"
+  bundle_description: "Додаток ."
+  code_hint:          "Є URL адресою сторінки."
+  click_edit_page:    "Натисніть для редагування сторінки."
+  active:             "Активна"
+  already_exist:      "Сторінка з символьним кодом %s вже існує."
+  content:            "Зміст"
+  page_template:      "Шаблон сторінки"
+  page:               "Сторінка"
+  pages:              "Сторінки"
+  page_not_found:     "Сторінка не знайдена."
+  view:               "Перегляд сторінки"
+  views:              "Переглядів"
+  view_pages:         "Перегляд сторінок"
+  create:
+    action:  "Додати сторінку"
+    process: "Створення сторінки"
+    success: "Сторінка успішно додана."
+  delete:
+    action:       "Видалити сторінку"
+    confirmation: "Ви дійсно бажаєте видалити сторінку?"
+    success:      "Сторінка успішно видалена."
+  update:
+    process: "Редагування сторінки"
+    success: "Сторінка успішно змінена."
+
+  widgets:
+    count_pages:   "Кількість сторінок"
+    pages:         "Сторінки"
+    pages_help:    "Кількість доданих сторінок."
+    popular_pages: "Популярні сторінки"

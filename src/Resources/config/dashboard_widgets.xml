@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="zentlix_page.dashboard_widget.pages_count" class="Zentlix\PageBundle\UI\Http\Web\DashboardWidget\PagesCount">
+            <argument type="service" id="Zentlix\PageBundle\Domain\Page\Repository\PageRepository"/>
+            <tag name="zentlix_main.admin_widget"/>
+        </service>
+        <service id="zentlix_page.dashboard_widget.popular_pages" class="Zentlix\PageBundle\UI\Http\Web\DashboardWidget\PopularPages">
+            <argument type="service" id="Zentlix\PageBundle\Domain\Page\Repository\PageRepository"/>
+            <argument type="service" id="router"/>
+            <tag name="zentlix_main.admin_widget"/>
+        </service>
+    </services>
+</container>

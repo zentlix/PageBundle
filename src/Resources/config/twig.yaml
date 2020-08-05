@@ -1,0 +1,3 @@
+twig:
+  paths:
+    '%kernel.project_dir%/vendor/zentlix/page-bundle/src/UI/Http/Web/templates': PageBundle

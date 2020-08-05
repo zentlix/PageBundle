@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false"/>
+
+        <!-- Command bus -->
+        <service id="zentlix_page.page.create_handler" class="Zentlix\PageBundle\Application\Command\Page\CreateHandler">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="zentlix_page.unique_code_specification"/>
+            <argument type="service" id="zentlix_main.site_exist_site_specification"/>
+            <argument type="service" id="zentlix_main.site_exist_template_file_specification"/>
+            <argument type="service" id="Zentlix\MainBundle\Domain\Site\Repository\SiteRepository"/>
+            <argument type="string">%page_template%</argument>
+            <tag name="messenger.message_handler"/>
+        </service>
+        <service id="zentlix_page.page.delete_handler" class="Zentlix\PageBundle\Application\Command\Page\DeleteHandler">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="event_dispatcher"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+        <service id="zentlix_page.page.update_handler" class="Zentlix\PageBundle\Application\Command\Page\UpdateHandler">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="zentlix_page.unique_code_specification"/>
+            <argument type="service" id="zentlix_main.site_exist_site_specification"/>
+            <argument type="service" id="zentlix_main.site_exist_template_file_specification"/>
+            <argument type="service" id="Zentlix\MainBundle\Domain\Site\Repository\SiteRepository"/>
+            <argument type="string">%page_template%</argument>
+            <tag name="messenger.message_handler"/>
+        </service>
+
+
+        <!-- Query bus -->
+        <service id="zentlix_page.page_data_table_query_handler" class="Zentlix\PageBundle\Application\Query\Page\DataTableQueryHandler">
+            <argument type="service" id="zentlix_main.data_table_service"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+        <service id="zentlix_page.page_query_handler" class="Zentlix\PageBundle\Application\Query\Page\PageQueryHandler">
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="zentlix_page.read.page_fetcher"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+    </services>
+</container>

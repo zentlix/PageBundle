@@ -1,0 +1,16 @@
+<div class="zx-visual-editor-block">
+    <div class="visual-editor-actions-block">
+        <div class="visual-editor-actions">
+            <a class="visual-editor-edit"
+               data-code="{{ page.code }}"><i class="nav-icon icon-note"></i>
+                {{ 'zentlix_main.edit' | trans }}
+            </a>
+        </div>
+    </div>
+    <div class="visual-editor-content"
+         data-class="{{ class }}"
+         data-code="{{ page.code }}"
+         data-form="{{ form }}"
+         contenteditable="true"
+         title="{{ 'zentlix_page.click_edit_page' | trans }}">{{ page.content | raw }}</div>
+</div>

@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="Zentlix\PageBundle\Domain\Page\Repository\PageRepository">
+            <argument type="service" id="Doctrine\Persistence\ManagerRegistry"/>
+            <tag name="doctrine.repository_service"/>
+        </service>
+
+        <!-- Read repositories -->
+        <service id="zentlix_page.read.page_fetcher" class="Zentlix\PageBundle\Domain\Page\Read\PageFetcher">
+            <argument type="service" id="doctrine.dbal.default_connection"/>
+        </service>
+    </services>
+</container>
