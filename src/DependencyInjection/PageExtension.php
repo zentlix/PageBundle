@@ -18,17 +18,11 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\Config\FileLocator;
-use Zentlix\PageBundle\Domain\Menu\Service\PageMenuProvider;
 
 class PageExtension extends Extension implements PrependExtensionInterface
 {
     public function load(array $configs, ContainerBuilder $container)
     {
-        // MenuBundle support
-        if (interface_exists('Zentlix\MenuBundle\Domain\Menu\Service\ProviderInterface')) {
-            $container->registerForAutoconfiguration(PageMenuProvider::class)->addTag('zentlix.menu.provider');
-        }
-
         $loader = new XmlFileLoader($container, new FileLocator(\dirname(__DIR__).'/Resources/config'));
 
         $loader->load('bus.xml');

@@ -11,6 +11,12 @@
     <services>
         <defaults autowire="false" autoconfigure="false" public="false"/>
 
+        <service id="Zentlix\PageBundle\Domain\Menu\Service\PageMenuProvider">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="router"/>
+            <tag name="zentlix.menu.provider"/>
+        </service>
+
         <service id="zentlix_page.page_bundle" class="Zentlix\PageBundle\PageBundle">
             <tag name="zentlix_bundle"/>
         </service>
