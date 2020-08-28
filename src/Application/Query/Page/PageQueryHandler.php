@@ -35,11 +35,13 @@ class PageQueryHandler implements QueryHandlerInterface
 
     public function __invoke(PageQuery $query): PageView
     {
-        $page = $this->map($this->pageFetcher->findByCode($query->getCode(), $query->getSiteId()));
+        $page = $this->pageFetcher->findByCode($query->getCode(), $query->getSiteId());
 
         if(is_null($page)) {
             throw new NotFoundException('Page not found.');
         }
+
+        $page = $this->map($page);
 
         $page->views++;
         $this->pageFetcher->view($page->views, $page->id);

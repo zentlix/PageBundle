@@ -16,12 +16,16 @@
             <argument type="service" id="zentlix_main.query_bus"/>
             <tag name="controller.service_arguments"/>
         </service>
-        <service id="zentlix_page.controller.page_controller" class="Zentlix\PageBundle\UI\Http\Web\Controller\PageController">
+        <service id="zentlix_page.controller.page_controller"
+                 class="Zentlix\PageBundle\UI\Http\Web\Controller\PageController"
+                 public="true">
             <argument type="service" id="zentlix_main.sites"/>
             <argument type="service" id="translator"/>
             <argument type="service" id="zentlix_main.command_bus"/>
             <argument type="service" id="zentlix_main.query_bus"/>
+            <tag name="zentlix.route.controller"/>
             <tag name="controller.service_arguments"/>
         </service>
+        <service alias="zentlix_page.controller.page_controller" id="Zentlix\PageBundle\UI\Http\Web\Controller\PageController" public="true"/>
     </services>
 </container>

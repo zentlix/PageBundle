@@ -2,7 +2,7 @@ doctrine:
   orm:
     auto_mapping: true
     mappings:
-      Page:
+      zentlix_page_page:
         is_bundle: false
         type: annotation
         dir: '%kernel.project_dir%/vendor/zentlix/page-bundle/src/Domain/Page/Entity'

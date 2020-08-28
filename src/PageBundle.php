@@ -13,13 +13,15 @@ declare(strict_types=1);
 namespace Zentlix\PageBundle;
 
 use Symfony\Component\HttpKernel\Bundle\Bundle;
-use Zentlix\MainBundle\Domain\Route\Entity\Route;
 use Zentlix\MainBundle\ZentlixBundleInterface;
 use Zentlix\MainBundle\ZentlixBundleTrait;
 use Zentlix\PageBundle\Application\Command;
 use Zentlix\PageBundle\Application\Query;
+use Zentlix\PageBundle\UI\Http\Web\Controller\PageController;
+use Zentlix\RouteBundle\Application\Command\Route\CreateCommand;
+use Zentlix\RouteBundle\RouteSupportInterface;
 
-class PageBundle extends Bundle implements ZentlixBundleInterface
+class PageBundle extends Bundle implements ZentlixBundleInterface, RouteSupportInterface
 {
     use ZentlixBundleTrait;
 
@@ -30,7 +32,7 @@ class PageBundle extends Bundle implements ZentlixBundleInterface
 
     public function getVersion(): string
     {
-        return '0.1.1';
+        return '0.1.2';
     }
 
     public function getDeveloper(): array
@@ -55,8 +57,15 @@ class PageBundle extends Bundle implements ZentlixBundleInterface
 
     public function installFrontendRoutes(): array
     {
+        $route = new CreateCommand();
+        $route->url = 'page/{code}';
+        $route->controller = PageController::class;
+        $route->action = 'show';
+        $route->title = 'zentlix_page.view';
+        $route->name = 'page.show';
+
         return [
-            new Route('page/{code}', 'zentlix_page.controller.page_controller', 'show', 'zentlix_page.page_view', 'page.show')
+            $route
         ];
     }
 }
