@@ -3,7 +3,7 @@
            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
            xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <services>
-        <service id="zentlix_user.twig_extension.user" class="Zentlix\PageBundle\UI\Http\Web\Widget\PageContent">
+        <service id="zentlix_user.twig_extension.page_content" class="Zentlix\PageBundle\UI\Http\Web\Widget\PageContent">
             <argument type="service" id="zentlix_main.visual_editor"/>
             <tag name="twig.extension"/>
         </service>

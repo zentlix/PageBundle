@@ -23,7 +23,9 @@ use Zentlix\PageBundle\Application\Command\Page\UpdateCommand;
 
 /**
  * @Mapping\Entity(repositoryClass="Zentlix\PageBundle\Domain\Page\Repository\PageRepository")
- * @Mapping\Table(name="zentlix_page_pages")
+ * @Mapping\Table(name="zentlix_page_pages", uniqueConstraints={
+ *     @Mapping\UniqueConstraint(columns={"code"})
+ * })
  */
 class Page implements Eventable
 {

@@ -53,7 +53,7 @@ class CreateHandler implements CommandHandlerInterface
     public function __invoke(CreateCommand $command): void
     {
         if($command->code) {
-            $this->uniqueCodeSpecification->isUnique(['code' => $command->code, 'site' => $command->site]);
+            $this->uniqueCodeSpecification->isUnique($command->code, $command->site);
         }
 
         $this->existSiteSpecification->isExist($command->site);

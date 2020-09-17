@@ -14,10 +14,10 @@ namespace Zentlix\PageBundle\Domain\Page\Specification;
 
 use Doctrine\ORM\NonUniqueResultException;
 use Symfony\Contracts\Translation\TranslatorInterface;
-use Zentlix\MainBundle\Domain\Shared\Specification\AbstractSpecification;
 use Zentlix\PageBundle\Domain\Page\Repository\PageRepository;
+use function is_null;
 
-final class UniqueCodeSpecification extends AbstractSpecification
+final class UniqueCodeSpecification
 {
     private PageRepository $pageRepository;
     private TranslatorInterface $translator;
@@ -28,22 +28,15 @@ final class UniqueCodeSpecification extends AbstractSpecification
         $this->translator = $translator;
     }
 
-    public function isUnique(array $param): bool
+    public function isUnique(string $code, int $site): void
     {
-        return $this->isSatisfiedBy($param);
-    }
-
-    public function isSatisfiedBy($value): bool
-    {
-        if($this->pageRepository->findOneBy(['code' => $value['code'], 'site' => $value['site']]) !== null) {
-            throw new NonUniqueResultException(sprintf($this->translator->trans('zentlix_page.already_exist'), $value['code']));
+        if(is_null($this->pageRepository->findOneBy(['code' => $code, 'site' => $site])) === false) {
+            throw new NonUniqueResultException(sprintf($this->translator->trans('zentlix_page.already_exist'), $code));
         }
-
-        return true;
     }
 
-    public function __invoke(array $param)
+    public function __invoke(string $code, int $site): void
     {
-        return $this->isUnique($param);
+        $this->isUnique($code, $site);
     }
 }

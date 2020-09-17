@@ -54,7 +54,7 @@ class UpdateHandler implements CommandHandlerInterface
         $page = $command->getEntity();
 
         if(!$page->isCodeEqual($command->code)) {
-            $this->uniqueCodeSpecification->isUnique(['code' => $command->code, 'site' => $command->site]);
+            $this->uniqueCodeSpecification->isUnique($command->code, $command->site);
         }
 
         $this->existSiteSpecification->isExist($command->site);

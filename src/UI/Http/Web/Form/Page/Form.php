@@ -18,6 +18,7 @@ use Symfony\Contracts\Translation\TranslatorInterface;
 use Symfony\Component\Validator\Constraints\GreaterThan;
 use Zentlix\MainBundle\Domain\Site\Repository\SiteRepository;
 use Zentlix\MainBundle\UI\Http\Web\FormType\AbstractForm;
+use Zentlix\MainBundle\UI\Http\Web\FormType\MetaType;
 use Zentlix\MainBundle\UI\Http\Web\Type;
 use Zentlix\PageBundle\Application\Command\Page\CreateCommand;
 use Zentlix\PageBundle\Domain\Page\Repository\PageRepository;
@@ -77,18 +78,7 @@ class Form extends AbstractForm
                 'choices'  => $templates,
                 'label' => 'zentlix_page.page_template'
             ])
-            ->add('meta_title', Type\TextType::class, [
-                'label' => 'zentlix_main.meta_title',
-                'required' => false
-            ])
-            ->add('meta_description', Type\TextType::class, [
-                'label' => 'zentlix_main.meta_description',
-                'required' => false
-            ])
-            ->add('meta_keywords', Type\TextType::class, [
-                'label' => 'zentlix_main.meta_keywords',
-                'required' => false
-            ])
+            ->add('meta', MetaType::class, ['inherit_data' => true])
             ->add('sort', Type\IntegerType::class, [
                 'label' => 'zentlix_main.sort',
                 'data' => $command instanceof CreateCommand ? $this->pageRepository->getMaxSort() + 1 : $command->sort,
