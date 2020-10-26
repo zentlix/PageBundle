@@ -9,9 +9,14 @@
             <tag name="kernel.event_subscriber"/>
         </service>
         <service id="Zentlix\PageBundle\EventSubscriber\SiteSubscriber">
+            <argument type="service" id="zentlix_main.command_bus"/>
+            <argument type="service" id="Zentlix\PageBundle\Domain\Page\Repository\PageRepository"/>
+            <argument type="string">%zentlix_page.page_template%</argument>
+            <tag name="kernel.event_subscriber"/>
+        </service>
+        <service id="Zentlix\PageBundle\EventSubscriber\PageSubscriber">
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="Zentlix\PageBundle\Domain\Page\Repository\PageRepository"/>
-            <argument type="string">%page_template%</argument>
             <tag name="kernel.event_subscriber"/>
         </service>
     </services>

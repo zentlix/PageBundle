@@ -13,7 +13,7 @@ declare(strict_types=1);
 namespace Zentlix\PageBundle\Application\Command\Page;
 
 use Symfony\Component\Validator\Constraints;
-use Zentlix\MainBundle\Application\Command\DeleteCommandInterface;
+use Zentlix\MainBundle\Infrastructure\Share\Bus\DeleteCommandInterface;
 use Zentlix\MainBundle\Infrastructure\Share\Bus\CommandInterface;
 use Zentlix\PageBundle\Domain\Page\Entity\Page;
 

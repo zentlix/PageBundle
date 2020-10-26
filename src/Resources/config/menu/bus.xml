@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="false"/>
+
+        <service id="zentlix_page.menu_page.create_handler" class="Zentlix\PageBundle\Application\Command\Item\Page\CreateHandler">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="zentlix_menu.exist_item_specification"/>
+            <argument type="service" id="Zentlix\MenuBundle\Domain\Menu\Repository\ItemRepository"/>
+            <argument type="service" id="Zentlix\PageBundle\Domain\Page\Repository\PageRepository"/>
+            <argument type="service" id="zentlix_page.exist_page_specification"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+        <service id="zentlix_page.menu_page.update_handler" class="Zentlix\PageBundle\Application\Command\Item\Page\UpdateHandler">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="zentlix_menu.exist_item_specification"/>
+            <argument type="service" id="Zentlix\MenuBundle\Domain\Menu\Repository\ItemRepository"/>
+            <argument type="service" id="zentlix_page.exist_page_specification"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+        <service id="zentlix_page.menu_page.delete_handler" class="Zentlix\PageBundle\Application\Command\Item\Page\DeleteHandler">
+            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="event_dispatcher"/>
+            <tag name="messenger.message_handler"/>
+        </service>
+    </services>
+</container>

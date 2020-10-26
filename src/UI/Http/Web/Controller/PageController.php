@@ -14,7 +14,7 @@ namespace Zentlix\PageBundle\UI\Http\Web\Controller;
 
 use Symfony\Component\HttpFoundation\Response;
 use Zentlix\MainBundle\UI\Http\Web\Controller\AbstractController;
-use Zentlix\MainBundle\Application\Query\NotFoundException;
+use Zentlix\MainBundle\Infrastructure\Share\Bus\NotFoundException;
 use Zentlix\PageBundle\Application\Query\Page\PageQuery;
 
 class PageController extends AbstractController

@@ -15,6 +15,7 @@ namespace Zentlix\PageBundle\EventSubscriber;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Zentlix\MainBundle\Domain\AdminSidebar\Event\BeforeBuild;
 use Zentlix\MainBundle\Domain\AdminSidebar\Service\MenuItemInterface;
+use function is_null;
 
 class SidebarSubscriber implements EventSubscriberInterface
 {
@@ -36,7 +37,7 @@ class SidebarSubscriber implements EventSubscriberInterface
         $sidebar
             ->addMenuItem('zentlix_page.pages')
             ->generateUrl('admin.page.list')
-            ->icon(MenuItemInterface::ICON_DOCS)
+            ->icon(MenuItemInterface::ICON_DESCRIPTION)
             ->sort(190);
     }
 }

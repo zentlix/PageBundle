@@ -1,7 +1,7 @@
-{% extends  template ~ '/layouts/base.html.twig' %}
+{% extends template ~ '/layouts/base.html.twig' %}
 {% block body %}
     <div class="container">
         <h2>{{ page.title }}</h2>
-        {{ pageContentWidget(page) }}
+        {{ page_content_widget(page) }}
     </div>
 {% endblock %}

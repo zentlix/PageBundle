@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="zentlix_page.menu.create_form" class="Zentlix\PageBundle\UI\Http\Web\Form\Item\Page\CreateForm">
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="translator"/>
+            <argument type="service" id="Zentlix\MenuBundle\Domain\Menu\Repository\ItemRepository"/>
+            <argument type="service" id="Zentlix\PageBundle\Domain\Page\Repository\PageRepository" />
+            <tag name="form.type"/>
+        </service>
+        <service id="zentlix_page.menu.update_form" class="Zentlix\PageBundle\UI\Http\Web\Form\Item\Page\UpdateForm">
+            <argument type="service" id="event_dispatcher"/>
+            <argument type="service" id="translator"/>
+            <argument type="service" id="Zentlix\MenuBundle\Domain\Menu\Repository\ItemRepository"/>
+            <argument type="service" id="Zentlix\PageBundle\Domain\Page\Repository\PageRepository" />
+            <tag name="form.type"/>
+        </service>
+    </services>
+</container>

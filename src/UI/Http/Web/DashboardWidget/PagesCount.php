@@ -44,28 +44,13 @@ class PagesCount extends AbstractProgressbarWidget
         return 100;
     }
 
-    public function getValue(): int
+    public function getValue()
     {
         return $this->pageRepository->count([]);
     }
 
     public function getBackgroundGradient(): string
     {
-        return self::BACKGROUND_RED_GRADIENT;
-    }
-
-    public function getProgressbarBackgroundGradient(): string
-    {
-        return self::PROGRESSBAR_BACKGROUND_COLOR_WHITE;
-    }
-
-    public function getColor(): string
-    {
-        return '#fff';
-    }
-
-    public function getHelpTextColor(): string
-    {
-        return 'rgba(255,255,255,.6)';
+        return self::GRADIENT_RED;
     }
 }

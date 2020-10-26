@@ -1,0 +1,18 @@
+<script>
+    $(document).ready(function () {
+        updatePageTemplates($('.page-site').val());
+        $('.page-site').on('change', function () {
+            updatePageTemplates($('.page-site').val());
+        });
+    });
+
+    function updatePageTemplates(siteId) {
+        $.post('{{ path('admin.page.templates') }}', {site: siteId}, function (result) {
+            var $pageTemplate = $(".page-template");
+            $pageTemplate.empty();
+            $.each(result, function(key,value) {
+                $pageTemplate.append($("<option></option>").attr("value", value).text(key));
+            });
+        });
+    }
+</script>

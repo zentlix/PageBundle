@@ -13,13 +13,13 @@ declare(strict_types=1);
 namespace Zentlix\PageBundle\Application\Command\Page;
 
 use Symfony\Component\Validator\Constraints;
-use Zentlix\MainBundle\Application\Command\DynamicPropertyCommand;
-use Zentlix\MainBundle\Application\Command\MetaTrait;
-use Zentlix\MainBundle\Application\Command\VisualEditorCommandInterface;
+use Zentlix\MainBundle\Domain\Site\Entity\Site;
+use Zentlix\MainBundle\Infrastructure\Share\Bus\MetaTrait;
+use Zentlix\MainBundle\Infrastructure\Share\Bus\VisualEditorCommandInterface;
 use Zentlix\MainBundle\Infrastructure\Share\Bus\CommandInterface;
 use Zentlix\PageBundle\Domain\Page\Entity\Page;
 
-class Command extends DynamicPropertyCommand implements CommandInterface, VisualEditorCommandInterface
+class Command implements CommandInterface, VisualEditorCommandInterface
 {
     use MetaTrait;
 
@@ -35,7 +35,11 @@ class Command extends DynamicPropertyCommand implements CommandInterface, Visual
     public ?string $content = null;
     public bool $active = true;
     public ?string $code = null;
-    public ?int $site = null;
+    /**
+     * @Constraints\NotBlank()
+     * @var int|Site
+     */
+    public $site = null;
     protected ?Page $entity;
 
     public function getEntity(): Page

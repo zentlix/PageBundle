@@ -18,12 +18,14 @@ use Symfony\Component\DependencyInjection\Extension\PrependExtensionInterface;
 use Symfony\Component\DependencyInjection\Loader\YamlFileLoader;
 use Symfony\Component\DependencyInjection\Loader\XmlFileLoader;
 use Symfony\Component\Config\FileLocator;
+use Zentlix\MenuBundle\Infrastructure\Menu\Service\ProviderInterface;
+use function dirname;
 
 class PageExtension extends Extension implements PrependExtensionInterface
 {
     public function load(array $configs, ContainerBuilder $container)
     {
-        $loader = new XmlFileLoader($container, new FileLocator(\dirname(__DIR__).'/Resources/config'));
+        $loader = new XmlFileLoader($container, new FileLocator(dirname(__DIR__).'/Resources/config'));
 
         $loader->load('bus.xml');
         $loader->load('controllers.xml');
@@ -35,11 +37,20 @@ class PageExtension extends Extension implements PrependExtensionInterface
         $loader->load('specifications.xml');
         $loader->load('subscribers.xml');
         $loader->load('twig_extensions.xml');
+
+        if(interface_exists(ProviderInterface::class)) {
+            $loader = new XmlFileLoader($container, new FileLocator(dirname(__DIR__).'/Resources/config/menu'));
+
+            $loader->load('bus.xml');
+            $loader->load('controllers.xml');
+            $loader->load('form_types.xml');
+            $loader->load('subscribers.xml');
+        }
     }
 
     public function prepend(ContainerBuilder $container)
     {
-        $loader = new YamlFileLoader($container, new FileLocator(\dirname(__DIR__).'/Resources/config'));
+        $loader = new YamlFileLoader($container, new FileLocator(dirname(__DIR__).'/Resources/config'));
         $loader->load('doctrine.yaml');
         $loader->load('twig.yaml');
     }

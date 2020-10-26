@@ -12,24 +12,22 @@ declare(strict_types=1);
 
 namespace Zentlix\PageBundle\Application\Query\Page;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Zentlix\MainBundle\Application\Query\NotFoundException;
-use Zentlix\MainBundle\Application\Query\QueryHandlerInterface;
+use Zentlix\MainBundle\Infrastructure\Share\Bus\NotFoundException;
+use Zentlix\MainBundle\Infrastructure\Share\Bus\QueryHandlerInterface;
 use Zentlix\PageBundle\Domain\Page\Event\BeforeView;
 use Zentlix\PageBundle\Domain\Page\Read\PageFetcher;
 use Zentlix\PageBundle\Domain\Page\Read\PageView;
+use function is_null;
 
 class PageQueryHandler implements QueryHandlerInterface
 {
     private EventDispatcherInterface $eventDispatcher;
-    private EntityManagerInterface $entityManager;
     private PageFetcher $pageFetcher;
 
-    public function __construct(EventDispatcherInterface $eventDispatcher, EntityManagerInterface $entityManager, PageFetcher $pageFetcher)
+    public function __construct(EventDispatcherInterface $eventDispatcher, PageFetcher $pageFetcher)
     {
         $this->eventDispatcher = $eventDispatcher;
-        $this->entityManager = $entityManager;
         $this->pageFetcher = $pageFetcher;
     }
 
@@ -41,36 +39,10 @@ class PageQueryHandler implements QueryHandlerInterface
             throw new NotFoundException('Page not found.');
         }
 
-        $page = $this->map($page);
-
-        $page->views++;
-        $this->pageFetcher->view($page->views, $page->id);
-        $this->entityManager->flush();
+        $page = new PageView($page);
 
         $this->eventDispatcher->dispatch(new BeforeView($page));
 
         return $page;
-    }
-
-    private function map(array $page): PageView
-    {
-        $meta = json_decode($page['meta'], true);
-
-        $pageView = new PageView();
-
-        $pageView->id = (int) $page['id'];
-        $pageView->title = (string) $page['title'];
-        $pageView->active = (int) $page['active'] === 1;
-        $pageView->code = (string) $page['code'];
-        $pageView->site_id = (int) $page['site_id'];
-        $pageView->sort = (int) $page['sort'];
-        $pageView->template = (string) $page['template'];
-        $pageView->content = $page['content'] ?? null;
-        $pageView->views = (int) $page['views'];
-        $pageView->meta_title = $meta['title'] ?? null;
-        $pageView->meta_description = $meta['description'] ?? null;
-        $pageView->meta_keywords = $meta['keywords'] ?? null;
-
-        return $pageView;
     }
 }

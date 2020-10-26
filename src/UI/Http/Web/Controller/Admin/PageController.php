@@ -12,8 +12,9 @@ declare(strict_types=1);
 
 namespace Zentlix\PageBundle\UI\Http\Web\Controller\Admin;
 
-use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
+use Zentlix\MainBundle\Domain\Site\Repository\SiteRepository;
 use Zentlix\MainBundle\UI\Http\Web\Controller\Admin\ResourceController;
 use Zentlix\PageBundle\Application\Command\Page\CreateCommand;
 use Zentlix\PageBundle\Application\Command\Page\DeleteCommand;
@@ -31,23 +32,54 @@ class PageController extends ResourceController
     public static $deleteSuccessMessage = 'zentlix_page.delete.success';
     public static $redirectAfterAction  = 'admin.page.list';
 
-    public function index(Request $request): Response
+    public function index(): Response
     {
-        return $this->listResource(new DataTableQuery(Table::class), $request);
+        return $this->listResource(new DataTableQuery(Table::class),'@PageBundle/admin/pages/pages.html.twig');
     }
 
-    public function create(Request $request): Response
+    public function create(): Response
     {
-        return $this->createResource(new CreateCommand($request), CreateForm::class, $request);
+        return $this->createResource(new CreateCommand(), CreateForm::class, '@PageBundle/admin/pages/create.html.twig');
     }
 
-    public function update(Page $page, Request $request): Response
+    public function update(Page $page): Response
     {
-        return $this->updateResource(new UpdateCommand($page, $request), UpdateForm::class, $request);
+        return $this->updateResource(
+            new UpdateCommand($page), UpdateForm::class, '@PageBundle/admin/pages/update.html.twig', ['page' => $page]
+        );
+    }
+
+    public function changeActivity(Page $page, Request $request): Response
+    {
+        $command = new UpdateCommand($page);
+        $command->active = (bool) $request->get('active');
+
+        try {
+            $this->exec($command);
+            return $this->json(['success' => true, 'message' => $this->translator->trans(static::$updateSuccessMessage)]);
+        } catch (\Exception $e) {
+            return $this->json($this->error($e->getMessage()));
+        }
     }
 
     public function delete(Page $page): Response
     {
         return $this->deleteResource(new DeleteCommand($page));
+    }
+
+    public function getTemplates(Request $request, SiteRepository $siteRepository): Response
+    {
+        $defaultTemplate = $this->container->getParameter('zentlix_page.page_template');
+
+        $templates = $siteRepository->get((int) $request->get('site'))
+            ->getTemplate()
+            ->getConfigParam('pages', ['zentlix_main.default_template' => $defaultTemplate]);
+
+        $result = [];
+        foreach ($templates as $title => $template) {
+            $result[$this->translator->trans($title)] = $template;
+        }
+
+        return $this->json($result);
     }
 }

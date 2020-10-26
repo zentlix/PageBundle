@@ -14,7 +14,7 @@ namespace Zentlix\PageBundle\Application\Command\Page;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Zentlix\MainBundle\Application\Command\CommandHandlerInterface;
+use Zentlix\MainBundle\Infrastructure\Share\Bus\CommandHandlerInterface;
 use Zentlix\MainBundle\Domain\Site\Repository\SiteRepository;
 use Zentlix\MainBundle\Domain\Site\Specification\ExistTemplateFileSpecification;
 use Zentlix\MainBundle\Domain\Site\Specification\ExistSiteSpecification;
@@ -31,7 +31,7 @@ class CreateHandler implements CommandHandlerInterface
     private EntityManagerInterface $entityManager;
     private EventDispatcherInterface $eventDispatcher;
     private SiteRepository $siteRepository;
-    private string $template;
+    private string $defaultTemplate;
 
     public function __construct(EntityManagerInterface $entityManager,
                                 EventDispatcherInterface $eventDispatcher,
@@ -47,7 +47,7 @@ class CreateHandler implements CommandHandlerInterface
         $this->entityManager = $entityManager;
         $this->eventDispatcher = $eventDispatcher;
         $this->siteRepository = $siteRepository;
-        $this->template = $template;
+        $this->defaultTemplate = $template;
     }
 
     public function __invoke(CreateCommand $command): void
@@ -55,17 +55,15 @@ class CreateHandler implements CommandHandlerInterface
         if($command->code) {
             $this->uniqueCodeSpecification->isUnique($command->code, $command->site);
         }
-
         $this->existSiteSpecification->isExist($command->site);
-
-        if($command->template !== $this->template) {
+        if($command->template !== $this->defaultTemplate) {
             $this->existTemplateSpecification->isExist($this->siteRepository->get($command->site)->getTemplate()->getFolder() . '/' . $command->template);
         }
+        $command->site = $this->siteRepository->get($command->site);
 
         $this->eventDispatcher->dispatch(new BeforeCreate($command));
 
         $page = new Page($command);
-        $page->setSite($this->siteRepository->get($command->site));
 
         $this->entityManager->persist($page);
         $this->entityManager->flush();

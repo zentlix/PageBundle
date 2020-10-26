@@ -13,8 +13,7 @@ declare(strict_types=1);
 namespace Zentlix\PageBundle\Application\Command\Page;
 
 use Symfony\Component\Validator\Constraints;
-use Symfony\Component\HttpFoundation\Request;
-use Zentlix\MainBundle\Application\Command\UpdateCommandInterface;
+use Zentlix\MainBundle\Infrastructure\Share\Bus\UpdateCommandInterface;
 use Zentlix\PageBundle\Domain\Page\Entity\Page;
 
 class UpdateCommand extends Command implements UpdateCommandInterface
@@ -22,27 +21,17 @@ class UpdateCommand extends Command implements UpdateCommandInterface
     /** @Constraints\NotBlank() */
     public ?string $code;
 
-    public function __construct(Page $page, Request $request = null)
+    public function __construct(Page $page)
     {
-        if($request) {
-            $main = $request->request->get('main');
-            $content = $request->request->get('content');
-        }
-
-        $page->getSite() ? $siteId = $page->getSite()->getId() : $siteId = null;
-
         $this->entity = $page;
-        $this->title = $main['title'] ?? $page->getTitle();
-        $this->content = $content['content'] ?? $page->getContent();
-        $this->active = $main['active'] ?? $page->isActive();
-        $this->code = $main['code'] ?? $page->getCode();
-        $this->template = $main['template'] ?? $page->getTemplate();
-        $this->sort = isset($main['sort']) ? (int) $main['sort'] : $page->getSort();
-        $this->site = isset($main['site']) ? (int) $main['site'] : $siteId;
-        $this->setMeta(
-            $main['meta_title'] ?? $page->getMetaTitle(),
-            $main['meta_description'] ?? $page->getMetaDescription(),
-            $main['meta_keywords'] ?? $page->getMetaKeywords()
-        );
+
+        $this->title    = $page->getTitle();
+        $this->content  = $page->getContent();
+        $this->active   = $page->isActive();
+        $this->code     = $page->getCode();
+        $this->template = $page->getTemplate();
+        $this->sort     = $page->getSort();
+        $this->site     = $page->getSite()->getId();
+        $this->setMeta($page->getMetaTitle(), $page->getMetaDescription(), $page->getMetaKeywords());
     }
 }

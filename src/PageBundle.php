@@ -19,7 +19,7 @@ use Zentlix\PageBundle\Application\Command;
 use Zentlix\PageBundle\Application\Query;
 use Zentlix\PageBundle\UI\Http\Web\Controller\PageController;
 use Zentlix\RouteBundle\Application\Command\Route\CreateCommand;
-use Zentlix\RouteBundle\RouteSupportInterface;
+use Zentlix\RouteBundle\Infrastructure\Share\RouteSupportInterface;
 
 class PageBundle extends Bundle implements ZentlixBundleInterface, RouteSupportInterface
 {
@@ -32,7 +32,7 @@ class PageBundle extends Bundle implements ZentlixBundleInterface, RouteSupportI
 
     public function getVersion(): string
     {
-        return '0.1.3';
+        return '1.0.0';
     }
 
     public function getDeveloper(): array
@@ -58,11 +58,12 @@ class PageBundle extends Bundle implements ZentlixBundleInterface, RouteSupportI
     public function installFrontendRoutes(): array
     {
         $route = new CreateCommand();
-        $route->url = 'page/{code}';
+
+        $route->url        = 'page/{code}';
         $route->controller = PageController::class;
-        $route->action = 'show';
-        $route->title = 'zentlix_page.view';
-        $route->name = 'page.show';
+        $route->action     = 'show';
+        $route->title      = 'zentlix_page.view';
+        $route->name       = 'page.show';
 
         return [
             $route

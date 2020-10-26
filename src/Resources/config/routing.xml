@@ -6,18 +6,30 @@
 
     <route id="admin.page.list" path="/backend/pages/list">
         <default key="_controller">zentlix_page.controller.admin.page_controller::index</default>
-        <condition>request.isXmlHttpRequest()</condition>
     </route>
     <route id="admin.page.create" path="/backend/pages/create">
         <default key="_controller">zentlix_page.controller.admin.page_controller::create</default>
-        <condition>request.isXmlHttpRequest()</condition>
     </route>
     <route id="admin.page.update" path="/backend/pages/{id}/edit">
         <default key="_controller">zentlix_page.controller.admin.page_controller::update</default>
-        <condition>request.isXmlHttpRequest()</condition>
+    </route>
+    <route id="admin.page.active" path="/backend/pages/{id}/active/change">
+        <default key="_controller">zentlix_page.controller.admin.page_controller::changeActivity</default>
     </route>
     <route id="admin.page.delete" path="/backend/pages/{id}/delete">
         <default key="_controller">zentlix_page.controller.admin.page_controller::delete</default>
-        <condition>request.isXmlHttpRequest()</condition>
+    </route>
+    <route id="admin.page.templates" path="/backend/pages/templates">
+        <default key="_controller">zentlix_page.controller.admin.page_controller::getTemplates</default>
+    </route>
+
+    <route id="admin.menu_page.create" path="/backend/settings/menu/page/{id}/create">
+        <default key="_controller">zentlix_page.controller.admin.menu_page_controller::create</default>
+    </route>
+    <route id="admin.menu_page.update" path="/backend/settings/menu/page/{id}/edit">
+        <default key="_controller">zentlix_page.controller.admin.menu_page_controller::update</default>
+    </route>
+    <route id="admin.menu_page.delete" path="/backend/settings/menu/page/{id}/delete">
+        <default key="_controller">zentlix_page.controller.admin.menu_page_controller::delete</default>
     </route>
 </routes>

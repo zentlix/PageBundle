@@ -61,8 +61,8 @@ class Page implements Eventable
 
     /**
      * @var Site
-     * @Mapping\ManyToOne(targetEntity="Zentlix\MainBundle\Domain\Site\Entity\Site", inversedBy="pages")
-     * @Mapping\JoinColumn(name="site_id", referencedColumnName="id", nullable=true)
+     * @Mapping\ManyToOne(targetEntity="Zentlix\MainBundle\Domain\Site\Entity\Site")
+     * @Mapping\JoinColumn(name="site_id", referencedColumnName="id")
      */
     private $site;
 
@@ -117,7 +117,7 @@ class Page implements Eventable
         return $this;
     }
 
-    public function getSite(): ?Site
+    public function getSite(): Site
     {
         return $this->site;
     }
@@ -142,12 +142,13 @@ class Page implements Eventable
      */
     private function setValuesFromCommands($command): void
     {
-        $this->title = $command->title;
-        $this->content = $command->content;
-        $this->active = $command->active;
-        $this->meta = $command->getMeta();
-        $this->code = $command->code;
+        $this->title    = $command->title;
+        $this->content  = $command->content;
+        $this->active   = $command->active;
+        $this->meta     = $command->getMeta();
+        $this->code     = $command->code;
         $this->template = $command->template;
-        $this->sort = $command->sort;
+        $this->sort     = $command->sort;
+        $this->site     = $command->site;
     }
 }

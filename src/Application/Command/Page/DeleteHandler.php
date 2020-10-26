@@ -14,7 +14,7 @@ namespace Zentlix\PageBundle\Application\Command\Page;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Zentlix\MainBundle\Application\Command\CommandHandlerInterface;
+use Zentlix\MainBundle\Infrastructure\Share\Bus\CommandHandlerInterface;
 use Zentlix\PageBundle\Domain\Page\Event\AfterDelete;
 use Zentlix\PageBundle\Domain\Page\Event\BeforeDelete;
 
@@ -37,6 +37,7 @@ class DeleteHandler implements CommandHandlerInterface
 
         $this->entityManager->remove($command->page);
         $this->entityManager->flush();
+
         $this->eventDispatcher->dispatch(new AfterDelete($pageId));
     }
 }

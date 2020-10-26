@@ -14,6 +14,24 @@ namespace Zentlix\PageBundle\Domain\Page\Read;
 
 class PageView
 {
+    public function __construct(array $page)
+    {
+        $meta = json_decode($page['meta'], true);
+
+        $this->id = (int) $page['id'];
+        $this->title = (string) $page['title'];
+        $this->active = (int) $page['active'] === 1;
+        $this->code = (string) $page['code'];
+        $this->site_id = (int) $page['site_id'];
+        $this->sort = (int) $page['sort'];
+        $this->template = (string) $page['template'];
+        $this->content = $page['content'] ?? null;
+        $this->views = (int) $page['views'];
+        $this->meta_title = $meta['title'] ?? null;
+        $this->meta_description = $meta['description'] ?? null;
+        $this->meta_keywords = $meta['keywords'] ?? null;
+    }
+
     public int $id;
     public string $title;
     public bool $active;

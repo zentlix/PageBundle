@@ -1,0 +1,8 @@
+{{ form_start(form, {'action': path('admin.menu_page.create', {'id': menu.id})}) }}
+    {{ form_widget(form) }}
+    <div class="menu-add-item">
+        <button class="btn btn-sm btn-primary" type="submit">
+            <i class="fa fa-dot-circle-o"></i> {{ 'zentlix_main.add' | trans }}
+        </button>
+    </div>
+{{ form_end(form) }}

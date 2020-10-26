@@ -55,10 +55,22 @@ class PageRepository extends ServiceEntityRepository
         );
     }
 
+    public function view(int $views, int $id): void
+    {
+        $this->createQueryBuilder('page')
+            ->update(Page::class, 'page')
+            ->set('page.views', ':views')
+            ->where('page.id = :id')
+            ->setParameter(':id', $id)
+            ->setParameter(':views', $views)
+            ->getQuery()
+            ->execute();
+    }
+
     public function getPopular(int $limit = 10): array
     {
-        return $this->createQueryBuilder('a')
-            ->orderBy('a.views', 'desc')
+        return $this->createQueryBuilder('page')
+            ->orderBy('page.views', 'desc')
             ->setMaxResults($limit)
             ->getQuery()
             ->execute();

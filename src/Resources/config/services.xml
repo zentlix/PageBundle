@@ -5,15 +5,17 @@
         http://symfony.com/schema/dic/services/services-1.0.xsd">
 
     <parameters>
-        <parameter key="page_template">@PageBundle/page/page.html.twig</parameter>
+        <parameter key="zentlix_page.page_template">@PageBundle/page/page.html.twig</parameter>
     </parameters>
 
     <services>
         <defaults autowire="false" autoconfigure="false" public="false"/>
 
         <service id="Zentlix\PageBundle\Domain\Menu\Service\PageMenuProvider">
-            <argument type="service" id="doctrine.orm.entity_manager"/>
+            <argument type="service" id="twig"/>
+            <argument type="service" id="form.factory"/>
             <argument type="service" id="router"/>
+            <argument type="service" id="Zentlix\PageBundle\Domain\Page\Repository\PageRepository"/>
             <tag name="zentlix.menu.provider"/>
         </service>
 

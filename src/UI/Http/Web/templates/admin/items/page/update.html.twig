@@ -1,0 +1,13 @@
+{{ form_start(form, {'action': path('admin.menu_page.update', {'id': item.id})}) }}
+    {{ form_widget(form) }}
+    <div class="menu-save-item">
+        <button class="btn btn-sm btn-primary" type="submit">
+            <i class="fa fa-dot-circle-o"></i> {{ 'zentlix_main.save' | trans }}
+        </button>
+        {% include '@MainBundle/admin/partials/delete_confirmation.html.twig' with {
+            'title': 'zentlix_menu.item.delete.action',
+            'confirmation': 'zentlix_menu.item.delete.confirmation',
+            'path': path('admin.menu_page.delete', {'id': item.id})
+        } %}
+    </div>
+{{ form_end(form) }}

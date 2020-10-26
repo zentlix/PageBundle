@@ -12,6 +12,6 @@ declare(strict_types=1);
 
 namespace Zentlix\PageBundle\Application\Query\Page;
 
-use Zentlix\MainBundle\Application\Query\AbstractDataTableQuery;
+use Zentlix\MainBundle\Infrastructure\Share\Bus\AbstractDataTableQuery;
 
 class DataTableQuery extends AbstractDataTableQuery {}

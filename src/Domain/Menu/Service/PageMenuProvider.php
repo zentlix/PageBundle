@@ -12,21 +12,34 @@ declare(strict_types=1);
 
 namespace Zentlix\PageBundle\Domain\Menu\Service;
 
-use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Zentlix\MenuBundle\Domain\Menu\Service\ProviderInterface;
-use Zentlix\MenuBundle\Domain\Menu\Service\MenuEntityProviderInterface;
-use Zentlix\PageBundle\Domain\Page\Entity\Page;
+use Twig\Environment;
+use Zentlix\MenuBundle\Domain\Menu\Entity\Item;
+use Zentlix\MenuBundle\Domain\Menu\Entity\Menu;
+use Zentlix\MenuBundle\Infrastructure\Menu\Service\ProviderInterface;
+use Zentlix\PageBundle\Application\Command\Item\Page\CreateCommand;
+use Zentlix\PageBundle\Application\Command\Item\Page\UpdateCommand;
 use Zentlix\PageBundle\Domain\Page\Repository\PageRepository;
+use Zentlix\PageBundle\UI\Http\Web\Form\Item\Page\CreateForm;
+use Zentlix\PageBundle\UI\Http\Web\Form\Item\Page\UpdateForm;
+use function is_null;
 
-class PageMenuProvider implements ProviderInterface, MenuEntityProviderInterface
+class PageMenuProvider implements ProviderInterface
 {
-    private PageRepository $pageRepository;
+    private Environment $twig;
+    private FormFactoryInterface $formFactory;
     private UrlGeneratorInterface $router;
+    private PageRepository $pageRepository;
 
-    public function __construct(EntityManagerInterface $entityManager, UrlGeneratorInterface $router)
+    public function __construct(Environment $twig,
+                                FormFactoryInterface $formFactory,
+                                UrlGeneratorInterface $router,
+                                PageRepository $pageRepository)
     {
-        $this->pageRepository = $entityManager->getRepository(Page::class);
+        $this->twig = $twig;
+        $this->formFactory = $formFactory;
+        $this->pageRepository = $pageRepository;
         $this->router = $router;
     }
 
@@ -35,31 +48,9 @@ class PageMenuProvider implements ProviderInterface, MenuEntityProviderInterface
         return 'zentlix_page.page';
     }
 
-    public function getType(): string
+    public static function getType(): string
     {
         return 'page';
-    }
-
-    public function isNeedUrl(): bool
-    {
-        return false;
-    }
-
-    public function getEntityClassName(): string
-    {
-        return Page::class;
-    }
-
-    public function getEntities(): array
-    {
-        return $this->pageRepository->assoc();
-    }
-
-    public function getEntityTitle(int $entityId): string
-    {
-        $page = $this->pageRepository->get($entityId);
-
-        return $page->getTitle();
     }
 
     public function getUrl(array $item): string
@@ -72,5 +63,21 @@ class PageMenuProvider implements ProviderInterface, MenuEntityProviderInterface
         }
 
         return $this->router->generate(sprintf('page.show_%s', $site->getId()), ['code' => $page->getCode()]);
+    }
+
+    public function getCreateForm(Menu $menu): string
+    {
+        return $this->twig->render('@PageBundle/admin/items/page/create.html.twig', [
+            'form' => $this->formFactory->create(CreateForm::class, new CreateCommand($menu))->createView(),
+            'menu' => $menu
+        ]);
+    }
+
+    public function getUpdateForm(Item $item): string
+    {
+        return $this->twig->render('@PageBundle/admin/items/page/update.html.twig', [
+            'form' => $this->formFactory->create(UpdateForm::class, new UpdateCommand($item))->createView(),
+            'item' => $item
+        ]);
     }
 }

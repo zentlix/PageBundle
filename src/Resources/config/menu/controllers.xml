@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<container xmlns="http://symfony.com/schema/dic/services"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+           xsi:schemaLocation="http://symfony.com/schema/dic/services
+        http://symfony.com/schema/dic/services/services-1.0.xsd">
+
+    <services>
+        <defaults public="true"/>
+
+        <service id="zentlix_page.controller.admin.menu_page_controller"
+                 class="Zentlix\PageBundle\UI\Http\Web\Controller\Admin\MenuPageController">
+            <argument type="service" id="translator"/>
+            <argument type="service" id="security.csrf.token_manager"/>
+            <argument type="service" id="zentlix_main.bundles"/>
+            <argument type="service" id="zentlix_main.command_bus"/>
+            <argument type="service" id="zentlix_main.query_bus"/>
+            <tag name="controller.service_arguments"/>
+        </service>
+    </services>
+</container>

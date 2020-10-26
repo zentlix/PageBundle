@@ -29,7 +29,7 @@ class VisualEditForm extends AbstractForm implements VisualEditorFormInterface
     private EventDispatcherInterface $eventDispatcher;
     private TranslatorInterface $translator;
     private SiteRepository $siteRepository;
-    private string $template;
+    private string $defaultTemplate;
 
     public function __construct(EventDispatcherInterface $eventDispatcher,
                                 TranslatorInterface $translator,
@@ -39,7 +39,7 @@ class VisualEditForm extends AbstractForm implements VisualEditorFormInterface
         $this->eventDispatcher = $eventDispatcher;
         $this->translator = $translator;
         $this->siteRepository = $siteRepository;
-        $this->template = $template;
+        $this->defaultTemplate = $template;
     }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
@@ -47,7 +47,7 @@ class VisualEditForm extends AbstractForm implements VisualEditorFormInterface
         /** @var UpdateCommand $command */
         $command = $builder->getData();
 
-        $templates = [$this->translator->trans('zentlix_main.default_template') => $this->template];
+        $templates = [$this->translator->trans('zentlix_main.default_template') => $this->defaultTemplate];
         $pageTemplates = $this->siteRepository->get($command->site)->getTemplate()->getConfigParam('pages') ?? [];
 
         if($command->site && count($pageTemplates) > 0) {

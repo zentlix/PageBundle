@@ -12,25 +12,27 @@ declare(strict_types=1);
 
 namespace Zentlix\PageBundle\EventSubscriber;
 
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Zentlix\MainBundle\Application\Command\Site\Command;
 use Zentlix\MainBundle\Domain\Site\Entity\Site;
 use Zentlix\MainBundle\Domain\Site\Event\Site\BeforeUpdate;
 use Zentlix\MainBundle\Domain\Site\Event\Site\BeforeDelete;
+use Zentlix\MainBundle\Infrastructure\Share\Bus\CommandBus;
+use Zentlix\PageBundle\Application\Command\Page\DeleteCommand;
+use Zentlix\PageBundle\Application\Command\Page\UpdateCommand;
 use Zentlix\PageBundle\Domain\Page\Repository\PageRepository;
 
 class SiteSubscriber implements EventSubscriberInterface
 {
-    private EntityManagerInterface $entityManager;
+    private CommandBus $commandBus;
     private PageRepository $pageRepository;
-    private string $template;
+    private string $defaultTemplate;
 
-    public function __construct(EntityManagerInterface $entityManager, PageRepository $pageRepository, string $template)
+    public function __construct(CommandBus $commandBus, PageRepository $pageRepository, string $template)
     {
-        $this->entityManager = $entityManager;
+        $this->commandBus = $commandBus;
         $this->pageRepository = $pageRepository;
-        $this->template = $template;
+        $this->defaultTemplate = $template;
     }
 
     public static function getSubscribedEvents(): array
@@ -51,11 +53,11 @@ class SiteSubscriber implements EventSubscriberInterface
         if($site->getTemplate()->getId() !== $command->template->getId()) {
             $pages = $this->pageRepository->findBySite($site->getId());
 
-            foreach ($pages as $page) {
-                $page->setTemplate($this->template);
-            }
-
-            $this->entityManager->flush();
+            array_walk($pages, function($page) {
+                $command = new UpdateCommand($page);
+                $command->template = $this->defaultTemplate;
+                $this->commandBus->handle($command);
+            });
         }
     }
 
@@ -64,11 +66,6 @@ class SiteSubscriber implements EventSubscriberInterface
         $siteId = $beforeDelete->getCommand()->site->getId();
 
         $pages = $this->pageRepository->findBySite($siteId);
-        foreach ($pages as $page) {
-            $page->setTemplate($this->template);
-            $page->setSite(null);
-        }
-
-        $this->entityManager->flush();
+        array_walk($pages, fn($page) => $this->commandBus->handle(new DeleteCommand($page)));
     }
 }

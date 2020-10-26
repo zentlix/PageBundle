@@ -13,10 +13,11 @@ declare(strict_types=1);
 namespace Zentlix\PageBundle\Domain\Page\Read;
 
 use Doctrine\DBAL\Connection;
+use function is_array;
 
 class PageFetcher
 {
-    private $connection;
+    private Connection $connection;
 
     public function __construct(Connection $connection)
     {
@@ -29,20 +30,11 @@ class PageFetcher
             ->from('zentlix_page_pages')
             ->where('code = :code')
             ->andWhere('site_id = :site')
+            ->andWhere('active = 1')
             ->getSQL();
 
         $result = $this->connection->fetchAssociative($sql, [':site' => $siteId, ':code' => $code]);
 
         return is_array($result) ? $result : null;
-    }
-
-    public function view(int $views, int $id): void
-    {
-        $this->connection->createQueryBuilder()
-            ->update('zentlix_page_pages')
-            ->set('views', $views)
-            ->where('id = :id')
-            ->setParameter(':id', $id)
-            ->execute();
     }
 }

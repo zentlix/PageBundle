@@ -1,11 +1,11 @@
 zentlix_page:
-  adm_panel_add:      "Сторінку"
-  bundle_description: "Додаток ."
+  bundle_description: "Додаток дозволяє створювати сторінки на сайті."
   code_hint:          "Є URL адресою сторінки."
   click_edit_page:    "Натисніть для редагування сторінки."
   active:             "Активна"
   already_exist:      "Сторінка з символьним кодом %s вже існує."
   content:            "Зміст"
+  not_exist:          "Сторінка з id %s не знайдена."
   page_template:      "Шаблон сторінки"
   page:               "Сторінка"
   pages:              "Сторінки"
@@ -19,6 +19,7 @@ zentlix_page:
     success: "Сторінка успішно додана."
   delete:
     action:       "Видалити сторінку"
+    process:      "Видалення сторінки"
     confirmation: "Ви дійсно бажаєте видалити сторінку?"
     success:      "Сторінка успішно видалена."
   update:

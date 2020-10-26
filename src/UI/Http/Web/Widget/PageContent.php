@@ -32,7 +32,7 @@ class PageContent extends AbstractExtension
     public function getFunctions(): array
     {
         return [
-            new TwigFunction('pageContentWidget', [$this, 'getPageContent'], ['needs_environment' => true, 'is_safe' => ['html']]),
+            new TwigFunction('page_content_widget', [$this, 'getPageContent'], ['needs_environment' => true, 'is_safe' => ['html']]),
         ];
     }
 

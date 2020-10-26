@@ -14,7 +14,7 @@ namespace Zentlix\PageBundle\Application\Command\Page;
 
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
-use Zentlix\MainBundle\Application\Command\CommandHandlerInterface;
+use Zentlix\MainBundle\Infrastructure\Share\Bus\CommandHandlerInterface;
 use Zentlix\MainBundle\Domain\Site\Specification\ExistTemplateFileSpecification;
 use Zentlix\MainBundle\Domain\Site\Repository\SiteRepository;
 use Zentlix\MainBundle\Domain\Site\Specification\ExistSiteSpecification;
@@ -30,7 +30,7 @@ class UpdateHandler implements CommandHandlerInterface
     private EntityManagerInterface $entityManager;
     private EventDispatcherInterface $eventDispatcher;
     private SiteRepository $siteRepository;
-    private string $template;
+    private string $defaultTemplate;
 
     public function __construct(EntityManagerInterface $entityManager,
                                 EventDispatcherInterface $eventDispatcher,
@@ -46,7 +46,7 @@ class UpdateHandler implements CommandHandlerInterface
         $this->entityManager = $entityManager;
         $this->eventDispatcher = $eventDispatcher;
         $this->siteRepository = $siteRepository;
-        $this->template = $template;
+        $this->defaultTemplate = $template;
     }
 
     public function __invoke(UpdateCommand $command): void
@@ -56,17 +56,15 @@ class UpdateHandler implements CommandHandlerInterface
         if(!$page->isCodeEqual($command->code)) {
             $this->uniqueCodeSpecification->isUnique($command->code, $command->site);
         }
-
         $this->existSiteSpecification->isExist($command->site);
-
-        if($command->template !== $this->template) {
+        if($command->template !== $this->defaultTemplate) {
             $this->existTemplateFileSpecification->isExist($this->siteRepository->get($command->site)->getTemplate()->getFolder() . '/' . $command->template);
         }
+        $command->site = $this->siteRepository->get($command->site);
 
         $this->eventDispatcher->dispatch(new BeforeUpdate($command));
 
         $page->update($command);
-        $page->setSite($this->siteRepository->get($command->site));
 
         $this->entityManager->flush();
 

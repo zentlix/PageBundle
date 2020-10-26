@@ -10,5 +10,10 @@
             <argument type="service" id="Zentlix\PageBundle\Domain\Page\Repository\PageRepository"/>
             <argument type="service" id="translator"/>
         </service>
+        <service id="zentlix_page.exist_page_specification"
+                 class="Zentlix\PageBundle\Domain\Page\Specification\ExistPageSpecification">
+            <argument type="service" id="Zentlix\PageBundle\Domain\Page\Repository\PageRepository"/>
+            <argument type="service" id="translator"/>
+        </service>
     </services>
 </container>
