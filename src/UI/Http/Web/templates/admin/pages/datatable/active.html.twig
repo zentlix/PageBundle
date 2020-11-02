@@ -1,6 +1,5 @@
 <form action="{{ path('admin.page.active', {'id': row.id}) }}" method="post" name="page-update">
     <label class="c-switch c-switch-label c-switch-pill c-switch-primary mb-0">
-        <input type="hidden" name="_token" value="{{ csrf_token('activity_form') }}">
         <input class="c-switch-input toggle-active" type="checkbox" {% if value %}checked=""{% endif %} name="active"
                onchange="toggleActive(this)" value="1">
         <span class="c-switch-slider" data-checked="On" data-unchecked="Off"></span>
