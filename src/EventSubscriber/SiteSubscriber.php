@@ -15,8 +15,8 @@ namespace Zentlix\PageBundle\EventSubscriber;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Zentlix\MainBundle\Application\Command\Site\Command;
 use Zentlix\MainBundle\Domain\Site\Entity\Site;
-use Zentlix\MainBundle\Domain\Site\Event\Site\BeforeUpdate;
-use Zentlix\MainBundle\Domain\Site\Event\Site\BeforeDelete;
+use Zentlix\MainBundle\Domain\Site\Event\BeforeUpdate;
+use Zentlix\MainBundle\Domain\Site\Event\BeforeDelete;
 use Zentlix\MainBundle\Infrastructure\Share\Bus\CommandBus;
 use Zentlix\PageBundle\Application\Command\Page\DeleteCommand;
 use Zentlix\PageBundle\Application\Command\Page\UpdateCommand;
@@ -50,7 +50,7 @@ class SiteSubscriber implements EventSubscriberInterface
         /** @var Site $site */
         $site = $command->getEntity();
 
-        if($site->getTemplate()->getId() !== $command->template->getId()) {
+        if($site->getTemplate()->getId()->equals($command->template->getId())) {
             $pages = $this->pageRepository->findBySite($site->getId());
 
             array_walk($pages, function($page) {

@@ -62,7 +62,7 @@ class PageMenuProvider implements ProviderInterface
             return '';
         }
 
-        return $this->router->generate(sprintf('page.show_%s', $site->getId()), ['code' => $page->getCode()]);
+        return $this->router->generate(sprintf('page.show_%s', $site->getId()->toString()), ['code' => $page->getCode()]);
     }
 
     public function getCreateForm(Menu $menu): string

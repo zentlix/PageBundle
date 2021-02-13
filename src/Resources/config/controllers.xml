@@ -8,9 +8,7 @@
         <defaults public="true"/>
         <service id="zentlix_page.controller.admin.page_controller"
                  class="Zentlix\PageBundle\UI\Http\Web\Controller\Admin\PageController">
-            <argument type="service" id="translator"/>
-            <argument type="service" id="security.csrf.token_manager"/>
-            <argument type="service" id="zentlix_main.bundles"/>
+            <argument type="service" id="zentlix_main.bundles" />
             <argument type="service" id="zentlix_main.command_bus"/>
             <argument type="service" id="zentlix_main.query_bus"/>
             <tag name="controller.service_arguments"/>

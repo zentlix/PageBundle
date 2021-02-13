@@ -16,8 +16,8 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Zentlix\MainBundle\Infrastructure\Share\Bus\CommandHandlerInterface;
 use Zentlix\MainBundle\Domain\Site\Repository\SiteRepository;
-use Zentlix\MainBundle\Domain\Site\Specification\ExistTemplateFileSpecification;
 use Zentlix\MainBundle\Domain\Site\Specification\ExistSiteSpecification;
+use Zentlix\MainBundle\Domain\Template\Specification\ExistFileSpecification;
 use Zentlix\PageBundle\Domain\Page\Entity\Page;
 use Zentlix\PageBundle\Domain\Page\Event\BeforeCreate;
 use Zentlix\PageBundle\Domain\Page\Event\AfterCreate;
@@ -27,7 +27,7 @@ class CreateHandler implements CommandHandlerInterface
 {
     private UniqueCodeSpecification $uniqueCodeSpecification;
     private ExistSiteSpecification $existSiteSpecification;
-    private ExistTemplateFileSpecification $existTemplateSpecification;
+    private ExistFileSpecification $existTemplateSpecification;
     private EntityManagerInterface $entityManager;
     private EventDispatcherInterface $eventDispatcher;
     private SiteRepository $siteRepository;
@@ -37,7 +37,7 @@ class CreateHandler implements CommandHandlerInterface
                                 EventDispatcherInterface $eventDispatcher,
                                 UniqueCodeSpecification $uniqueCodeSpecification,
                                 ExistSiteSpecification $existSiteSpecification,
-                                ExistTemplateFileSpecification $existTemplateSpecification,
+                                ExistFileSpecification $existTemplateSpecification,
                                 SiteRepository $siteRepository,
                                 string $template)
     {

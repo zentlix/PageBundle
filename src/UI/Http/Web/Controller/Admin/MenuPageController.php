@@ -32,7 +32,7 @@ class MenuPageController extends AbstractAdminController
             $form = $this->createForm(CreateForm::class, $command);
             $form->handleRequest($request);
             $this->exec($command);
-            $this->addFlash('success', $this->translator->trans('zentlix_menu.item.create.success'));
+            $this->addFlash('success', 'zentlix_menu.item.create.success');
 
             return $this->redirectToRoute('admin.menu.update', ['id' => $menu->getId(), 'items' => 1]);
         } catch (\Exception $exception) {
@@ -49,7 +49,7 @@ class MenuPageController extends AbstractAdminController
             $form = $this->createForm(UpdateForm::class, $command);
             $form->handleRequest($request);
             $this->exec($command);
-            $this->addFlash('success', $this->translator->trans('zentlix_menu.item.update.success'));
+            $this->addFlash('success', 'zentlix_menu.item.update.success');
 
             return $this->redirectToRoute('admin.menu.update', ['id' => $item->getMenu()->getId(), 'items' => 1]);
         } catch (\Exception $exception) {
@@ -65,7 +65,7 @@ class MenuPageController extends AbstractAdminController
             $menuId = $item->getMenu()->getId();
             $command = new DeleteCommand($item);
             $this->exec($command);
-            $this->addFlash('success', $this->translator->trans('zentlix_menu.item.delete.success'));
+            $this->addFlash('success', 'zentlix_menu.item.delete.success');
 
             return $this->redirectToRoute('admin.menu.update', ['id' => $menuId, 'items' => 1]);
         } catch (\Exception $exception) {

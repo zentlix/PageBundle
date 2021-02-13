@@ -17,9 +17,9 @@ use Zentlix\MainBundle\Infrastructure\Share\Bus\QueryInterface;
 class PageQuery implements QueryInterface
 {
     private string $code;
-    private int $siteId;
+    private string $siteId;
 
-    public function __construct(string $code, int $siteId)
+    public function __construct(string $code, string $siteId)
     {
         $this->code = $code;
         $this->siteId = $siteId;
@@ -30,7 +30,7 @@ class PageQuery implements QueryInterface
         return $this->code;
     }
 
-    public function getSiteId(): int
+    public function getSiteId(): string
     {
         return $this->siteId;
     }

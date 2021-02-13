@@ -41,7 +41,7 @@ class Table extends AbstractDataTableType
                     'label'   => 'zentlix_main.site.site',
                     'visible' => true
                 ])
-            ->add('template', TextColumn::class, ['label' => 'zentlix_main.template', 'visible' => false])
+            ->add('template', TextColumn::class, ['label' => 'zentlix_main.template.template', 'visible' => false])
             ->add('sort', TextColumn::class, ['label' => 'zentlix_main.sort', 'visible' => true])
             ->add('active', TwigColumn::class, [
                 'template' => '@PageBundle/admin/pages/datatable/active.html.twig',

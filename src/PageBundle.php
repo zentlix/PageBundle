@@ -32,7 +32,7 @@ class PageBundle extends Bundle implements ZentlixBundleInterface, RouteSupportI
 
     public function getVersion(): string
     {
-        return '1.0.1';
+        return '1.0.2';
     }
 
     public function getDeveloper(): array

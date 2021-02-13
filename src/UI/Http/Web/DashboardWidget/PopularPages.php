@@ -48,7 +48,7 @@ class PopularPages extends AbstractTableWidget
             $rows[] = [
                 $page->getId(),
                 sprintf('<a href="%s">%s</a>', $this->router->generate('admin.page.update', ['id' => $page->getId()]), $page->getTitle()),
-                sprintf('<a href="%s">%s</a>', $this->router->generate('admin.site.update', ['id' => $page->getSite()->getId()]), $page->getSite()->getTitle()),
+                sprintf('<a href="%s">%s</a>', $this->router->generate('admin.site.update', ['id' => $page->getSite()->getId()->toString()]), $page->getSite()->getTitle()),
                 $page->getCode(),
                 $page->getViews()
             ];

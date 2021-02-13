@@ -31,7 +31,7 @@ class UpdateCommand extends Command implements UpdateCommandInterface
         $this->code     = $page->getCode();
         $this->template = $page->getTemplate();
         $this->sort     = $page->getSort();
-        $this->site     = $page->getSite()->getId();
+        $this->site     = $page->getSite()->getId()->toString();
         $this->setMeta($page->getMetaTitle(), $page->getMetaDescription(), $page->getMetaKeywords());
     }
 }

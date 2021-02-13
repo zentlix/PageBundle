@@ -37,7 +37,7 @@ class Command implements CommandInterface, VisualEditorCommandInterface
     public ?string $code = null;
     /**
      * @Constraints\NotBlank()
-     * @var int|Site
+     * @var string|Site
      */
     public $site = null;
     protected ?Page $entity;

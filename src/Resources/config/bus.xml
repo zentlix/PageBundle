@@ -12,8 +12,8 @@
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="zentlix_page.unique_code_specification"/>
-            <argument type="service" id="zentlix_main.site_exist_site_specification"/>
-            <argument type="service" id="zentlix_main.site_exist_template_file_specification"/>
+            <argument type="service" id="zentlix_main.site.exist_site_specification"/>
+            <argument type="service" id="zentlix_main.template.exist_file_specification"/>
             <argument type="service" id="Zentlix\MainBundle\Domain\Site\Repository\SiteRepository"/>
             <argument type="string">%zentlix_page.page_template%</argument>
             <tag name="messenger.message_handler"/>
@@ -27,8 +27,8 @@
             <argument type="service" id="doctrine.orm.entity_manager"/>
             <argument type="service" id="event_dispatcher"/>
             <argument type="service" id="zentlix_page.unique_code_specification"/>
-            <argument type="service" id="zentlix_main.site_exist_site_specification"/>
-            <argument type="service" id="zentlix_main.site_exist_template_file_specification"/>
+            <argument type="service" id="zentlix_main.site.exist_site_specification"/>
+            <argument type="service" id="zentlix_main.template.exist_file_specification"/>
             <argument type="service" id="Zentlix\MainBundle\Domain\Site\Repository\SiteRepository"/>
             <argument type="string">%zentlix_page.page_template%</argument>
             <tag name="messenger.message_handler"/>

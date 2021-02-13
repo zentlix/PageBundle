@@ -39,7 +39,7 @@ class PageRepository extends ServiceEntityRepository
         return $this->findBy([], ['sort' => 'asc']);
     }
 
-    public function findBySite(int $siteId): array
+    public function findBySite($siteId): array
     {
         return $this->findBy(['site' => $siteId], ['sort' => 'asc']);
     }

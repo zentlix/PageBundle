@@ -28,7 +28,7 @@ final class UniqueCodeSpecification
         $this->translator = $translator;
     }
 
-    public function isUnique(string $code, int $site): void
+    public function isUnique(string $code, $site): void
     {
         if(is_null($this->pageRepository->findOneBy(['code' => $code, 'site' => $site])) === false) {
             throw new NonUniqueResultException(sprintf($this->translator->trans('zentlix_page.already_exist'), $code));

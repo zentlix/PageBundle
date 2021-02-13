@@ -22,7 +22,7 @@ class PageView
         $this->title = (string) $page['title'];
         $this->active = (int) $page['active'] === 1;
         $this->code = (string) $page['code'];
-        $this->site_id = (int) $page['site_id'];
+        $this->site_id = (string) $page['site_id'];
         $this->sort = (int) $page['sort'];
         $this->template = (string) $page['template'];
         $this->content = $page['content'] ?? null;
@@ -37,7 +37,7 @@ class PageView
     public bool $active;
     public string $code;
     public int $views;
-    public int $site_id;
+    public string $site_id;
     public int $sort;
     public ?string $template;
     public ?string $content;

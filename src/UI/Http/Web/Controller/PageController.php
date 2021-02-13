@@ -22,7 +22,7 @@ class PageController extends AbstractController
     public function show(string $code): Response
     {
         try {
-            $page = $this->ask(new PageQuery($code, $this->site->getId()));
+            $page = $this->ask(new PageQuery($code, $this->site->getId()->toString()));
         } catch (NotFoundException $exception) {
             throw $this->createNotFoundException($this->translator->trans('zentlix_page.page_not_found'));
         }

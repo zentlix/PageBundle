@@ -14,6 +14,7 @@ namespace Zentlix\PageBundle\UI\Http\Web\Controller\Admin;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use Zentlix\MainBundle\Domain\Site\Repository\SiteRepository;
 use Zentlix\MainBundle\UI\Http\Web\Controller\Admin\ResourceController;
 use Zentlix\PageBundle\Application\Command\Page\CreateCommand;
@@ -56,9 +57,9 @@ class PageController extends ResourceController
 
         try {
             $this->exec($command);
-            return $this->json(['success' => true, 'message' => $this->translator->trans(static::$updateSuccessMessage)]);
+            return $this->json(['success' => true, 'message' => static::$updateSuccessMessage]);
         } catch (\Exception $e) {
-            return $this->json($this->error($e->getMessage()));
+            return $this->jsonError($e->getMessage());
         }
     }
 
@@ -67,7 +68,7 @@ class PageController extends ResourceController
         return $this->deleteResource(new DeleteCommand($page));
     }
 
-    public function getTemplates(Request $request, SiteRepository $siteRepository): Response
+    public function getTemplates(Request $request, SiteRepository $siteRepository, TranslatorInterface $translator): Response
     {
         $defaultTemplate = $this->container->getParameter('zentlix_page.page_template');
 
@@ -77,7 +78,7 @@ class PageController extends ResourceController
 
         $result = [];
         foreach ($templates as $title => $template) {
-            $result[$this->translator->trans($title)] = $template;
+            $result[$translator->trans($title)] = $template;
         }
 
         return $this->json($result);
